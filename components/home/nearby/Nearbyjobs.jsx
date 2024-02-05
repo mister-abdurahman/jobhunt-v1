@@ -18,12 +18,12 @@ import NearbyJobCard from "../../common/cards/nearby/NearbyJobCard";
 const NearbyJobs = () => {
   const router = useRouter();
 
-  // const { isLoading, error, data } = useFetch("search", {
-  //   query: "React developer",
-  //   page: "1",
-  //   num_pages: "1",
-  // });
-  const { isLoading, error, data } = useFetch("jobs");
+  const { isLoading, error, data } = useFetch("search", {
+    query: "React developer",
+    page: "1",
+    num_pages: "1",
+  });
+  // const { isLoading, error, data } = useFetch("jobs");
 
   return (
     <View style={styles.container}>
