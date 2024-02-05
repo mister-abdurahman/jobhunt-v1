@@ -6,7 +6,7 @@ import {
   JobTabs,
   ScreenHeaderBtn,
 } from "../../components";
-import { Link, Stack, useLocalSearchParams, useRouter } from "expo-router";
+import { Link, Navigator, Stack, useLocalSearchParams, useRouter } from "expo-router";
 import {
   ActivityIndicator,
   RefreshControl,
@@ -42,7 +42,7 @@ const JobDetails = () => {
             <ScreenHeaderBtn
               iconUrl={icons.left}
               dimension={"60%"}
-              handlePress={() => {}}
+              handlePress={() => {router.back()}}
             />
           ),
           headerRight: () => (
