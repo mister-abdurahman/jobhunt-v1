@@ -1,12 +1,19 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import {
   Company,
   JobAbout,
   JobFooter,
   JobTabs,
   ScreenHeaderBtn,
+  Specifics,
 } from "../../components";
-import { Link, Navigator, Stack, useLocalSearchParams, useRouter } from "expo-router";
+import {
+  Link,
+  Navigator,
+  Stack,
+  useLocalSearchParams,
+  useRouter,
+} from "expo-router";
 import {
   ActivityIndicator,
   RefreshControl,
@@ -19,17 +26,51 @@ import { useFetch } from "../../hook/useFetch";
 import { COLORS, SIZES, icons } from "../../constants";
 import Colors from "../../constants/Colors";
 
+const tabs = ["About", "Qualifications", "Responsibilities"];
+
 const JobDetails = () => {
   const params = useLocalSearchParams();
   const router = useRouter();
 
   const [refreshing, setRefreshing] = useState(false);
+  const [activeTab, setActiveTab] = useState("About");
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [error, setError] = useState(null);
+  // const [selectedJob, setSelectedJob] = useState([]);
+
+  // useEffect(
+  //   function () {
+  //     const { isLoading, error, data } = useFetch("job-details", {
+  //       job_id: params.id,
+  //     });
+  //     setSelectedJob(data);
+  //     setIsLoading(isLoading);
+  //     setError(error);
+  //   },
+  //   [selectedJob]
+  // );
 
   const { isLoading, error, data } = useFetch("job-details", {
     job_id: params.id,
   });
 
   const onRefresh = () => {};
+
+  const displayTabContent = () => {
+    switch (activeTab) {
+      case "Qualifications":
+        return (
+          <Specifics
+            title="Qualifications"
+            points={data[0]?.job_highlights?.qualifications ?? ["N/A"]}
+          />
+        );
+      case "Responsibilities":
+      case "About":
+      default:
+        break;
+    }
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
@@ -42,7 +83,9 @@ const JobDetails = () => {
             <ScreenHeaderBtn
               iconUrl={icons.left}
               dimension={"60%"}
-              handlePress={() => {router.back()}}
+              handlePress={() => {
+                router.back();
+              }}
             />
           ),
           headerRight: () => (
@@ -71,9 +114,20 @@ const JobDetails = () => {
             <Text>No data!</Text>
           ) : (
             <View style={{ padding: SIZES.medium, paddingBottom: 100 }}>
-              <Company companyLogo={data[0].employer_logo} jobTitle={data[9].job_title} companyName={data[0].employer_name} location={data[0].job_country}/>
-              {/* 1:34:14 */}
-              <JobTabs />
+              <Company
+                companyLogo={data[0]?.employer_logo}
+                jobTitle={data[0]?.job_title}
+                companyName={data[0]?.employer_name}
+                location={data[0]?.job_country}
+              />
+
+              <JobTabs
+                tabs={tabs}
+                activeTab={activeTab}
+                setActiveTab={setActiveTab}
+              />
+
+              {displayTabContent()}
             </View>
           )}
         </ScrollView>
