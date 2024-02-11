@@ -12,7 +12,7 @@ import styles from "./welcome.style";
 import { SIZES, icons } from "../../../constants";
 import { router } from "expo-router";
 
-const Welcome = () => {
+const Welcome = ({ searchTerm, setSearchTerm, handleClick }) => {
   const [activeJobType, setActiveJobType] = useState("Full-time");
   const jobTypes = ["Full-time", "Part-time", "Contractor"];
   return (
@@ -26,12 +26,15 @@ const Welcome = () => {
         <View style={styles.searchWrapper}>
           <TextInput
             style={styles.searchInput}
-            value=""
-            onChange={() => ""}
+            value={searchTerm}
+            onChangeText={(text) => setSearchTerm(text)}
             placeholder="What are you looking for?"
           />
         </View>
-        <TouchableOpacity style={styles.searchBtn}>
+        <TouchableOpacity
+          style={styles.searchBtn}
+          onPress={() => handleClick()}
+        >
           <Image
             source={icons.search}
             resizeMode="contain"
@@ -47,15 +50,15 @@ const Welcome = () => {
             <TouchableOpacity
               style={styles.tab(activeJobType, item)}
               onPress={() => {
-                setActiveJobType(item)
-                router.push(`search/${item}`)  
+                setActiveJobType(item);
+                router.push(`search/${item}`);
               }}
             >
               <Text style={styles.tabText(activeJobType, item)}>{item}</Text>
             </TouchableOpacity>
           )}
-          keyExtractor={item => item}
-          contentContainerStyle={{columnGap: SIZES.small}}
+          keyExtractor={(item) => item}
+          contentContainerStyle={{ columnGap: SIZES.small }}
           horizontal
         />
       </View>

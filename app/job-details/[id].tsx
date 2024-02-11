@@ -50,11 +50,15 @@ const JobDetails = () => {
   //   [selectedJob]
   // );
 
-  const { isLoading, error, data } = useFetch("job-details", {
+  const { isLoading, error, data, refetch } = useFetch("job-details", {
     job_id: params.id,
   });
 
-  const onRefresh = () => {};
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    refetch();
+    setRefreshing(false);
+  }, []);
 
   const displayTabContent = () => {
     switch (activeTab) {
