@@ -2,7 +2,7 @@
   "expo": {
     "name": "Job Hunt",
     "slug": "jobhunt-v1",
-    "desccription": "A Job Search App for Developers",
+    "description": "A Job Search App for Developers",
     "scheme": "jobhunt-v1",
     "version": "1.0.0",
     "orientation": "portrait",
